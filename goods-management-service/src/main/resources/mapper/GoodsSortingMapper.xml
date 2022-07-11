@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.outlet.mysql.mapper.GoodsSortingMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.outlet.dao.mysql.po.GoodsSorting">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+            <result property="ifParent" column="if_parent" jdbcType="VARCHAR"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,parent_id,
+        if_parent,is_deleted
+    </sql>
+
+    <select id="getGoodsSortingByGoodsSkuId" resultType="com.woniu.outlet.dao.mysql.po.GoodsSorting">
+        select * from goods_sorting where id =
+            (select spg_id from goods_spu where id =
+                (select spu_id from goods_sku_spu where sku_id = #{id}))
+    </select>
+</mapper>

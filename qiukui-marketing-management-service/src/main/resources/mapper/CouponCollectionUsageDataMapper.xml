@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.outlet.dao.mysql.CouponCollectionUsageDataMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.outlet.dao.mysql.pojo.CouponCollectionUsageData">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="coupontypeid" column="couponTypeId" jdbcType="INTEGER"/>
+            <result property="numberofsheetsreceived" column="numberOfSheetsReceived" jdbcType="INTEGER"/>
+            <result property="numberofrecipients" column="numberOfRecipients" jdbcType="INTEGER"/>
+            <result property="numberofsheetsused" column="numberOfSheetsUsed" jdbcType="INTEGER"/>
+            <result property="numberofusers" column="numberOfUsers" jdbcType="INTEGER"/>
+            <result property="currenttime" column="currentTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,couponTypeId,numberOfSheetsReceived,
+        numberOfRecipients,numberOfSheetsUsed,numberOfUsers,
+        currentTime
+    </sql>
+</mapper>

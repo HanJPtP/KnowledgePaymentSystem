@@ -1,0 +1,81 @@
+### 登录
+POST http://127.0.0.1:10000/auth-server/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=123
+
+### uid 查询
+GET http://127.0.0.1:10000/users-service/userinfo/uid?uid=1
+x-jwt-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+### uid 查询
+GET http://127.0.0.1:8095/userinfo/uid?uid=1
+### x-jwt-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+### list 查询 levelName startRegisterTime, endRegisterTime, labelName, uid, username, phone
+GET http://127.0.0.1:10000/users-service/userinfo/list?labelName=男,学生
+x-jwt-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+###
+GET http://127.0.0.1:8095/userinfo/list?labelName=男,学生
+
+###
+GET http://192.172.0.205:10000/users-service/userinfo/list
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+### 查所有userinfo
+GET http://127.0.0.1:8095/userinfo/list
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+### 修改用户状态
+GET http://127.0.0.1:8095/user/updatestatus?uid=1&status=0
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+
+
+### 查所有userinfo
+GET http://192.172.0.205:10000/users-service/userinfo/list
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+### 查所有userinfo
+GET http://192.172.0.65:10000/users-service/userinfo/list
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+
+### 查email
+GET http://127.0.0.1:8095/userinfo/getemail?uids=1,3
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+### 新增userinfo
+POST http://127.0.0.1:8095/userinfo/add
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+{
+    "username":"唐娜a",
+    "userImg":"http://dummyimage.com/400x400",
+    "gender":0,
+    "age":7,
+    "phone":"18616135188",
+    "email":"yv@qq.com",
+    "job":"pariatur",
+    "sourceWay":"adipisicing",
+    "note":"eiusmod",
+    "registerTime":"2010-04-13 05:29:18"
+}
+
+### 修改成长值
+GET http://127.0.0.1:8095/usermember/updategrowthnum?uid=1&preGrowthNum=510&nowGrowthNum=520&note=sa
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+### 查询
+GET http://127.0.0.1:8095/memberplus/showupdate?plusTypeid=101
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+###
+POST http://127.0.0.1:8095/userlevel/update
+Content-Type: application/json
+x-username:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.YnW2neLtfdnWnham0LzUTJ975vQZwXXJHwdoWJ0yiWQ
+
+{
+    "levelId":4
+}

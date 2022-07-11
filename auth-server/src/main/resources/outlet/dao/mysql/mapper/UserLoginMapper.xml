@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.outlet.dao.mysql.mapper.UserLoginMapper">
+
+    <resultMap id="userlogin_perms" type="com.woniu.outlet.dao.mysql.po.UserLogin">
+        <id property="uid" column="uid"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="status" property="status"/>
+        <result column="modified_time" property="modifiedTime"/>
+        <result column="register_time" property="registerTime"/>
+        <collection property="permsList"
+                    column="uid"
+                    select="com.woniu.outlet.dao.mysql.mapper.UserLoginMapper.getUsersAllPerms"
+                    ofType="string"
+                    javaType="list"/>
+    </resultMap>
+
+    <select id="getUsersByUsername" resultMap="userlogin_perms">
+        select * from user_login where account = #{username}
+    </select>
+
+</mapper>

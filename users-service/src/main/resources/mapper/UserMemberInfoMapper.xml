@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.UserMemberInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.UserMemberInfo">
+            <id property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="levelId" column="level_id" jdbcType="BIGINT"/>
+            <result property="levelNumber" column="level_number" jdbcType="VARCHAR"/>
+            <result property="giftStatus" column="gift_status" jdbcType="INTEGER"/>
+            <result property="growthNum" column="growth_num" jdbcType="INTEGER"/>
+            <result property="points" column="points" jdbcType="INTEGER"/>
+            <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,level_id,level_number,
+        gift_status,growth_num,points,
+        modified_time
+    </sql>
+</mapper>

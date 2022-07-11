@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.UserLevelMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.UserLevel">
+            <id property="levelId" column="level_id" jdbcType="BIGINT"/>
+            <result property="levelNumber" column="level_number" jdbcType="VARCHAR"/>
+            <result property="levelName" column="level_name" jdbcType="VARCHAR"/>
+            <result property="bgcolor" column="bgcolor" jdbcType="VARCHAR"/>
+            <result property="roleid" column="roleid" jdbcType="BIGINT"/>
+            <result property="giftid" column="giftid" jdbcType="INTEGER"/>
+            <result property="minPoint" column="min_point" jdbcType="INTEGER"/>
+            <result property="maxPoint" column="max_point" jdbcType="BIGINT"/>
+            <result property="rightid" column="rightid" jdbcType="BIGINT"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        level_id,level_number,level_name,
+        bgcolor,roleid,giftid,
+        min_point,max_point,rightid,
+        status,modified_time
+    </sql>
+    <select id="getUserLevelByGrowthNum" resultType="com.woniu.users.outlet.dao.mysql.po.UserLevel">
+        select * from user_level where (min_point &lt;= #{growthNum} and max_point &gt;= #{growthNum})
+        or (min_point &lt;= #{growthNum} and max_point is null)
+    </select>
+
+    <select id="listUserLevel" resultType="com.woniu.users.outlet.dao.mysql.po.UserLevel">
+        select * from user_level
+        <where>
+            <if test="levelName != ''">
+                and level_name like concat('%',#{levelName},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

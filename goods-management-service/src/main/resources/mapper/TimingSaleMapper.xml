@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.outlet.mysql.mapper.TimingSaleMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.outlet.dao.mysql.po.TimingSale">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="skuId" column="sku_id" jdbcType="BIGINT"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sku_id,start_time,
+        end_time
+    </sql>
+
+    <insert id="saveTimingSaleList" parameterType="com.woniu.outlet.dao.mysql.po.TimingSale">
+        insert into timing_sale (id, sku_id, start_time, end_time) values
+              <foreach collection="timingSaleList" item="timingSale" separator=",">
+                  (#{timingSale.id}, #{timingSale.skuId}, #{timingSale.startTime}, #{timingSale.endTime})
+              </foreach>
+    </insert>
+</mapper>

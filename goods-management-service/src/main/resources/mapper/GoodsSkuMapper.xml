@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.outlet.mysql.mapper.GoodsSkuMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.outlet.dao.mysql.po.GoodsSku">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="inventory" column="inventory" jdbcType="VARCHAR"/>
+<!--            <result property="slideshowimgs" column="slideshowimgs" jdbcType="VARCHAR"/>-->
+            <result property="images" column="images" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="gooddetails" column="gooddetails" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="marketprice" column="marketprice" jdbcType="DECIMAL"/>
+            <result property="orderno" column="orderno" jdbcType="INTEGER"/>
+            <result property="minnum" column="minnum" jdbcType="INTEGER"/>
+            <result property="maxnum" column="maxnum" jdbcType="INTEGER"/>
+            <result property="saleable" column="saleable" jdbcType="VARCHAR"/>
+            <result property="valid" column="valid" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="lastUpdateTime" column="last_update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,inventory,
+        slideshowimgs,images,description,
+        gooddetails,price,marketprice,
+        orderno,minnum,maxnum,
+        saleable,valid,create_time,
+        last_update_time,is_deleted
+    </sql>
+
+    <select id="listGoodsSkuItem" resultType="com.woniu.outlet.dao.dto.GoodsSkuDto">
+        select gs.id, gs.description, gs.price, gs.create_time, gs.orderno from goods_sku gs
+        <where>
+            <if test="saleable != ''">
+                and gs.saleable = #{saleable}
+            </if>
+            <if test="title != ''">
+                and gs.title like concat("%", #{title}, "%")
+            </if>
+            <if test="startTime != '' and startTime != null">
+                and gs.create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != '' and endTime != null">
+                and gs.create_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="goodsSku_paramsMap" type="com.woniu.outlet.dao.dto.OrderGoodsSkuItemDto">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="inventory" column="inventory"/>
+        <result property="images" column="images"/>
+        <result property="price" column="price"/>
+        <association property="paramsValueDtoList"
+                     column="id"
+                     javaType="list"
+                     select="com.woniu.outlet.mysql.mapper.GoodsSkuMapper.getGoodsSkuParmsMap"/>
+    </resultMap>
+
+    <select id="getGoodsSkuItemById" resultMap="goodsSku_paramsMap">
+        select gs.id, gs.inventory, gs.images, gs.price from goods_sku gs where gs.id = #{id}
+    </select>
+
+    <select id="getGoodsSkuParmsMap" resultType="com.woniu.outlet.dao.dto.ParamsValueDto">
+        select gp.name as 'key', gpv.value as 'value' from goods_sku_value gsv
+               LEFT JOIN goods_params_value gpv on  gpv.id = gsv.value_id
+               LEFT JOIN goods_params gp on gpv.spp_id = gp.spp_id
+               where gsv.sku_id = #{id}
+    </select>
+
+    <select id="listGoodsSkuListByIdList" resultMap="goodsSku_paramsMap">
+        select gs.id, gs.inventory, gs.images, gs.price from goods_sku gs
+            <where>
+                <foreach collection="ids" item="id" separator="," open="gs.id in (" close=")">
+                    #{id}
+                </foreach>
+            </where>
+    </select>
+
+    <insert id="saveGoodsSkuList" parameterType="com.woniu.outlet.dao.mysql.po.GoodsSku">
+        insert into goods_sku values
+        <foreach collection="goodsSkuList" item="GoodsSku" separator=",">
+            (#{GoodsSku.id},#{GoodsSku.title},#{GoodsSku.inventory},#{GoodsSku.images},#{GoodsSku.description},#{GoodsSku.gooddetails},#{GoodsSku.price},#{GoodsSku.marketprice},#{GoodsSku.orderno},#{GoodsSku.minnum},#{GoodsSku.maxnum},#{GoodsSku.saleable},#{GoodsSku.valid},#{GoodsSku.createTime},#{GoodsSku.lastUpdateTime},#{GoodsSku.isDeleted})
+        </foreach>
+    </insert>
+
+    <select id="getGoodsSkuShowaUpdateItemById" resultType="com.woniu.outlet.dao.dto.GoodsSkuShowUpdateDto">
+        select * from goods_sku where id = #{id}
+    </select>
+
+    <select id="listGoodsSkuShowaUpdateItemById" resultType="com.woniu.outlet.dao.dto.GoodsSkuShowUpdateDto">
+        select * from goods_sku where id in ( select sku_id from goods_sku_spu where spu_id = #{id})
+    </select>
+
+
+    <select id="listGoodsSkuOwnedParamsAndValueItem" resultType="com.woniu.outlet.dao.dto.GoodsParamsAndIdShowUpdateDto">
+        select gp.id paramsid, gp.name name, gpv.value value, gpv.id valueid from goods_params gp
+             LEFT JOIN goods_params_value gpv on gp.id = gpv.spp_id
+            where gpv.id in (select value_id from goods_sku_value where sku_id = #{id})
+    </select>
+
+    <update id="updateGoodsSkuValidItem">
+        update goods_sku set valid = #{status}, last_update_time = #{lastUpdateTime} where id in
+               (select sku_id from timing_sale where id = #{timingSaleId})
+    </update>
+
+    <select id="listAllGoodsSkuItem" resultType="com.woniu.outlet.dao.mysql.po.GoodsSku">
+        select gs.* from goods_sku gs
+        <where>
+            <if test="saleable != ''">
+                and gs.saleable = #{saleable}
+            </if>
+            <if test="title != ''">
+                and gs.title like concat("%", #{title}, "%")
+            </if>
+            <if test="startTime != '' and startTime != null">
+                and gs.create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != '' and endTime != null">
+                and gs.create_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+</mapper>

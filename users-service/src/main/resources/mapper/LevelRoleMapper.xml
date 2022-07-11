@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.LevelRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.LevelRole">
+            <id property="roleid" column="roleid" jdbcType="BIGINT"/>
+            <result property="ismember" column="ismember" jdbcType="INTEGER"/>
+            <result property="money" column="money" jdbcType="DOUBLE"/>
+            <result property="growthNum" column="growth_num" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        roleid,ismember,money,
+        growth_num
+    </sql>
+</mapper>

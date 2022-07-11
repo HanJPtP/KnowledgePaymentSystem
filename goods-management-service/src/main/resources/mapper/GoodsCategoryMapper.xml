@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.outlet.mysql.mapper.GoodsCategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.outlet.dao.mysql.po.GoodsCategory">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="spgId" column="spg_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,spg_id,name,
+        is_deleted
+    </sql>
+
+    <resultMap id="params_to_values" type="com.woniu.outlet.dao.dto.CategoryToParamsToValueDto">
+        <id property="id" column="id"/>
+        <result property="params" column="name" />
+        <association property="valueList"
+                     column="id"
+                     javaType="list"
+                     select="com.woniu.outlet.mysql.mapper.GoodsCategoryMapper.listAllValuesByParamId"/>
+    </resultMap>
+
+    <select id="listAllParamsToValuesById" resultMap="params_to_values">
+        select gp.id, gp.name from goods_category gc
+               LEFT JOIN goods_category_params gcp on gc.id = gcp.spc_id
+               LEFT JOIN goods_params gp on gp.id = gcp.spp_id
+               where gc.spg_id = #{id} and gc.is_deleted = "n"
+    </select>
+
+    <select id="listAllValuesByParamId" resultType="com.woniu.outlet.dao.dto.ValueAndIdDto">
+        SELECT gpv.id, gpv.value from goods_params_value gpv where gpv.spp_id = #{id}
+    </select>
+
+    <select id="listGoodsSkuParamsAndValueByGoodsSkuId" resultMap="params_to_values">
+        select gp.id, gp.name from goods_category gc
+           LEFT JOIN goods_category_params gcp on gc.id = gcp.spc_id
+           LEFT JOIN goods_params gp on gp.id = gcp.spp_id
+           where gc.spg_id = (select spg_id from goods_spu where id = (select spu_id from goods_sku_spu where sku_id = #{skuid}))
+                 and gc.is_deleted = "n"
+    </select>
+</mapper>

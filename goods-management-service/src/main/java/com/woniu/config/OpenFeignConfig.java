@@ -1,0 +1,8 @@
+package com.woniu.config;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class OpenFeignConfig {
+
+}

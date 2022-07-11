@@ -1,0 +1,190 @@
+version: '3'
+
+volumes:
+  es-data:
+  minio-data:
+  minio-config:
+
+services:
+  nacos-server:
+    image: nacos/nacos-server:2.0.3
+    container_name: nacos-8848
+    environment:
+      - MODE=standalone
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: "host"
+
+  redis-server:
+    image: redis:6.0
+    container_name: redis-6379
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/redis/6379/data:/data
+    network_mode: "host"
+
+  rabbitMQ-server:
+    image: rabbitmq:3.10-management
+    container_name: rabbitMQ-5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/docker/5672/data:/var/lib/rabbitmq
+    network_mode: "host"
+
+  es-server:
+    image: elasticsearch:7.10.1
+    container_name: es-9200
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+      - ./plugins:/usr/share/elasticsearch/plugin
+    network_mode: "host"
+
+  minio-server:
+    image: minio/minio
+    container_name: minio-9000
+    command: server /data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_BROWSER_REDIRECT_URL: http://192.172.0.65
+      MINIO_SERVER_URL: http://192.172.0.65
+    volumes:
+     - minio-data:/data
+     - minio-config:/root/.minio
+    network_mode: "host"
+
+  mysql-server:
+    image: mysql:8.0
+    container_name: mysql-3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_HOST=root
+    command:
+      --max_connections=1000 #最大连接数
+    volumes:
+      - /docker/mysql/3306/data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    network_mode: "host"
+
+  gateway-servcer:
+    build:
+      context: $PWD/gateway-server
+      dockerfile: Dockerfile
+    image: gateway
+    container_name: gateway-service-10000
+    network_mode: "host"
+    environment:
+      APP_OPTS: "--server.port=10000"
+      WAIT_HOSTS: 127.0.0.1:8848,127.0.0.1:3306,127.0.0.1:9000,127.0.0.1:6379,127.0.0.1:5672,127.0.0.1:9200,127.0.0.1:8080,127.0.0.1:8081,127.0.0.1:8082,127.0.0.1:8083,127.0.0.1:8084,127.0.0.1:8085,127.0.0.1:8086,127.0.0.1:8087
+      WAIT_TIMEOUT: 360
+      WAIT_SLEEP_INTERVAL: 3
+
+
+  auth-server:
+    build:
+      context: $PWD/auth-server
+      dockerfile: Dockerfile
+    image: auth-server
+    container_name: auth-server-8080
+    network_mode: "host"
+    environment:
+      APP_OPTS: "--server.port=8080"
+      WAIT_HOSTS: 127.0.0.1:8848,127.0.0.1:3306,127.0.0.1:9000,127.0.0.1:6379,127.0.0.1:5672,127.0.0.1:9200
+      WAIT_TIMEOUT: 180
+      WAIT_SLEEP_INTERVAL: 3
+
+  course-management-service:
+    build:
+      context: $PWD/course-management-service
+      dockerfile: Dockerfile
+    image: course-management-service
+    container_name: course-management-service-8081
+    network_mode: "host"
+    environment:
+      APP_OPTS: "--server.port=8081"
+      WAIT_HOSTS: 127.0.0.1:8848,127.0.0.1:3306,127.0.0.1:9000,127.0.0.1:6379,127.0.0.1:5672,127.0.0.1:9200
+      WAIT_TIMEOUT: 180
+      WAIT_SLEEP_INTERVAL: 3
+
+  employees-management-service:
+    build:
+      context: $PWD/employees-management-service
+      dockerfile: Dockerfile
+    image: employees-management-service
+    container_name: employees-management-service-8082
+    network_mode: "host"
+    environment:
+      APP_OPTS: "--server.port=8082"
+      WAIT_HOSTS: 127.0.0.1:8848,127.0.0.1:3306,127.0.0.1:9000,127.0.0.1:6379,127.0.0.1:5672,127.0.0.1:9200
+      WAIT_TIMEOUT: 180
+      WAIT_SLEEP_INTERVAL: 3
+
+  goods-management-service:
+    build:
+      context: $PWD/goods-management-service
+      dockerfile: Dockerfile
+    image: goods-management-service
+    container_name: goods-management-service-8083
+    network_mode: "host"
+    environment:
+      APP_OPTS: "--server.port=8083"
+      WAIT_HOSTS: 127.0.0.1:8848,127.0.0.1:3306,127.0.0.1:9000,127.0.0.1:6379,127.0.0.1:5672,127.0.0.1:9200
+      WAIT_TIMEOUT: 180
+      WAIT_SLEEP_INTERVAL: 3
+
+  qiukui-marketing-management-service:
+    build:
+      context: $PWD/qiukui-marketing-management-service
+      dockerfile: Dockerfile
+    image: qiukui-marketing-management-service
+    container_name: qiukui-marketing-management-service-8084
+    network_mode: "host"
+    environment:
+      APP_OPTS: "--server.port=8084"
+      WAIT_HOSTS: 127.0.0.1:8848,127.0.0.1:3306,127.0.0.1:9000,127.0.0.1:6379,127.0.0.1:5672,127.0.0.1:9200
+      WAIT_TIMEOUT: 180
+      WAIT_SLEEP_INTERVAL: 3
+
+  service-message:
+    build:
+      context: $PWD/service-message
+      dockerfile: Dockerfile
+    image: service-message
+    container_name: service-message-8085
+    network_mode: "host"
+    environment:
+      APP_OPTS: "--server.port=8085"
+      WAIT_HOSTS: 127.0.0.1:8848,127.0.0.1:3306,127.0.0.1:9000,127.0.0.1:6379,127.0.0.1:5672,127.0.0.1:9200
+      WAIT_TIMEOUT: 180
+      WAIT_SLEEP_INTERVAL: 3
+
+  service-order:
+    build:
+      context: $PWD/service-order
+      dockerfile: Dockerfile
+    image: service-order
+    container_name: service-order-8086
+    network_mode: "host"
+    environment:
+      APP_OPTS: "--server.port=8086"
+      WAIT_HOSTS: 127.0.0.1:8848,127.0.0.1:3306,127.0.0.1:9000,127.0.0.1:6379,127.0.0.1:5672,127.0.0.1:9200
+      WAIT_TIMEOUT: 180
+      WAIT_SLEEP_INTERVAL: 3
+
+  users-service:
+    build:
+      context: $PWD/users-service
+      dockerfile: Dockerfile
+    image: users-service
+    container_name: users-service-8087
+    network_mode: "host"
+    environment:
+      APP_OPTS: "--server.port=8087"
+      WAIT_HOSTS: 127.0.0.1:8848,127.0.0.1:3306,127.0.0.1:9000,127.0.0.1:6379,127.0.0.1:5672,127.0.0.1:9200
+      WAIT_TIMEOUT: 180
+      WAIT_SLEEP_INTERVAL: 3

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.UserGrowthLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.UserGrowthLog">
+            <id property="growthId" column="growth_id" jdbcType="INTEGER"/>
+            <result property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="source" column="source" jdbcType="VARCHAR"/>
+            <result property="referNumber" column="refer_number" jdbcType="INTEGER"/>
+            <result property="changePoint" column="change_point" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        growth_id,uid,source,
+        refer_number,change_point,create_time
+    </sql>
+</mapper>

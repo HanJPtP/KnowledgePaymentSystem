@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.UserPlusInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.UserPlusInfo">
+            <id property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="plusTypeid" column="plus_typeid" jdbcType="BIGINT"/>
+            <result property="cardRemind" column="card_remind" jdbcType="INTEGER"/>
+            <result property="openTime" column="open_time" jdbcType="TIMESTAMP"/>
+            <result property="status" column="status" jdbcType="VARCHAR"/>
+            <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,plus_typeid,card_remind,
+        open_time,status,modified_time
+    </sql>
+</mapper>

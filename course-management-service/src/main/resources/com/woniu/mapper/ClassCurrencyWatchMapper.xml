@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniu.outnet.dao.mysql.ClassCurrencyWatchMapper">
+
+    <resultMap id="ccw_ccm" type="com.woniu.outnet.dao.pojo.ClassCurrencyWatch">
+        <result column="userid" property="userid"></result>
+        <result column="totletime" property="watchtime"></result>
+        <result column="crlid" property="crlid"></result>
+        <association property="classCurrencyMsg"
+                     column="crlid"
+                     select="com.woniu.outnet.dao.mysql.ClassCurrencyMsgMapper.selectById"
+                     javaType="com.woniu.outnet.dao.pojo.ClassCurrencyMsg"></association>
+    </resultMap>
+    <select id="listClassLiveWatchByUserid" resultMap="ccw_ccm">
+        select any_value(userid) as userid,sum(watchtime) as totletime,any_value(crlid) as crlid from class_currency_watch group by crlid, userid having userid = ${userid}
+    </select>
+
+</mapper>
+

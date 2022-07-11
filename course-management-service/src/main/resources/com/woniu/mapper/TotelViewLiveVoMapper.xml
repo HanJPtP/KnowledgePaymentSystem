@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniu.outnet.dao.mysql.TotelViewLiveVoMapper">
+
+    <select id="listTotelViewLiveVoWhileUserStatusIsY" resultType="com.woniu.intnet.web.vo.TotelViewLiveVo">
+        select ca.crlid as crlid,a.userid as userid,any_value(a.num) as num,any_value(a.watchtime) as watchtime from class_appointment ca left join (select crlid,userid,count(*) as num ,sum(watchtime) as watchtime from class_live_watch group by crlid,userid) as a on ca.crlid=a.crlid where userstatus ="y" group by ca.crlid,a.userid having watchtime &gt;= #{watchtime}
+    </select>
+</mapper>
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniu.outnet.dao.mysql.ClassLiveWatchMapper">
+
+    <resultMap id="clw_crl" type="com.woniu.outnet.dao.pojo.ClassLiveWatch">
+        <result column="userid" property="userid"></result>
+        <result column="totletime" property="watchtime"></result>
+        <result column="crlid" property="crlid"></result>
+        <association property="classRecordLive"
+                     select="com.woniu.outnet.dao.mysql.ClassRecordLiveMapper.selectById"
+                     javaType="com.woniu.outnet.dao.pojo.ClassRecordLive"
+                     column="crlid"></association>
+    </resultMap>
+    <select id="listClassLiveWatchByUserid" resultMap="clw_crl">
+        select any_value(userid) as userid,sum(watchtime) as totletime,any_value(crlid) as crlid from class_live_watch group by crlid, userid having userid = ${userid}
+    </select>
+</mapper>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniu.outnet.dao.mysql.ClassAppointmentMapper">
+
+    <resultMap id="ca_crl" type="com.woniu.outnet.dao.pojo.ClassAppointment">
+        <association property="classRecordLive"
+                     column="crlid"
+                     javaType="com.woniu.outnet.dao.pojo.ClassRecordLive"
+                     select="com.woniu.outnet.dao.mysql.ClassRecordLiveMapper.selectById"/>
+    </resultMap>
+
+
+    <update id="updateClassAppointmentByListIdToChangeSendOrNot">
+        update class_appointment set sendornot="y"
+        <foreach collection="ids" separator="," open="where id in(" item="id" close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>
+

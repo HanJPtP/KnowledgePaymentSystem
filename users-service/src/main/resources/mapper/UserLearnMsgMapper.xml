@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.UserLearnMsgMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.UserLearnMsg">
+            <id property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="totalCourse" column="total_course" jdbcType="INTEGER"/>
+            <result property="finishedCourse" column="finished_course" jdbcType="INTEGER"/>
+            <result property="totalTime" column="total_time" jdbcType="VARCHAR"/>
+            <result property="todayTime" column="today_time" jdbcType="VARCHAR"/>
+            <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,total_course,finished_course,
+        total_time,today_time,modified_time
+    </sql>
+</mapper>

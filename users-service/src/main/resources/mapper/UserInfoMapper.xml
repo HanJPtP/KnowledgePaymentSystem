@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.UserInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.UserInfo">
+            <id property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="userImg" column="user_img" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="INTEGER"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="job" column="job" jdbcType="VARCHAR"/>
+            <result property="sourceWay" column="source_way" jdbcType="VARCHAR"/>
+            <result property="note" column="note" jdbcType="VARCHAR"/>
+            <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,username,user_img,
+        gender,age,phone,
+        email,job,source_way,
+        note,modified_time
+    </sql>
+    <select id="listUserInfo" resultType="com.woniu.users.inlet.web.dto.UserMsg">
+        select u1.uid,u1.username,u1.user_img,u1.phone,u1.register_time,u5.level_name,u4.label_name
+        from user_info u1 left join user_member_info u2 on u1.uid=u2.uid
+                          left join user_level u5 on u2.level_id =u5.level_id
+                          left join user_label_info u3 on u2.uid=u3.uid
+                          left join user_label u4 on u3.label_id=u4.label_id
+        <where>
+            <if test="levelName != ''">
+                and find_in_set (u5.level_name,#{levelName})
+            </if>
+            <if test="startRegisterTime != ''">
+                and u1.register_time &gt;= #{startRegisterTime}
+            </if>
+            <if test="endRegisterTime != ''">
+                and u1.register_time &lt;= #{endRegisterTime}
+            </if>
+            <if test="labelName != null">
+                <foreach collection="labelName" item="items">
+                    and exists(select * from user_label ul,user_label_info uli where
+                    ul.label_id=uli.label_id and u1.uid=uli.uid and label_name=#{items})
+                </foreach>
+            </if>
+            <if test="uid != -1">
+                and u1.uid like concat('%',#{uid},'%')
+            </if>
+            <if test="username != ''">
+                and u1.username like concat('%',#{username},'%')
+            </if>
+            <if test="phone != ''">
+                and u1.phone like concat('%',#{phone},'%')
+            </if>
+
+        </where>
+    </select>
+    <select id="getEmailByUid" resultType="java.lang.String">
+        select email from user_info
+            <foreach collection="uidList" item="uid" separator="," open="where uid in(" close=")" >
+                #{uid}
+            </foreach>
+    </select>
+
+
+</mapper>

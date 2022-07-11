@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.MemberRightsMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.MemberRights">
+            <id property="rightId" column="right_id" jdbcType="BIGINT"/>
+            <result property="rightName" column="right_name" jdbcType="VARCHAR"/>
+            <result property="rightImg" column="right_img" jdbcType="VARCHAR"/>
+            <result property="rightInfo" column="right_info" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        right_id,right_name,right_img,
+        right_info,status,modified_time
+    </sql>
+
+    <select id="listMemberRights" resultType="com.woniu.users.outlet.dao.mysql.po.MemberRights">
+        select * from member_rights
+        <where>
+            <if test="rightName != ''">
+                and right_name like concat('%',#{rightName},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

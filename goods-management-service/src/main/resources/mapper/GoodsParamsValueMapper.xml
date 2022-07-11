@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.outlet.mysql.mapper.GoodsParamsValueMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.outlet.dao.mysql.po.GoodsParamsValue">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="sppId" column="spp_id" jdbcType="BIGINT"/>
+            <result property="value" column="value" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,spp_id,value
+    </sql>
+</mapper>

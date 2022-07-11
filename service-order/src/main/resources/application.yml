@@ -1,0 +1,41 @@
+server:
+    port: 8080
+spring:
+    application:
+        name: service-order
+    cloud:
+        nacos:
+            discovery:
+                namespace: public
+                username: nacos
+                password: nacos
+                server-addr: 127.0.0.1:8848
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: root
+        password: 123456
+        name: defaultDataSource
+        url: jdbc:mysql://127.0.0.1:3306/knowledge_order_center?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    rabbitmq:
+        host: 127.0.0.1
+        port: 5672
+        username: guest
+        password: guest
+        publisher-confirm-type: correlated
+    redis:
+        host: 127.0.0.1
+        port: 6379
+feign:
+    okhttp:
+        enabled: true   # 激活 okhttp 的使用
+logging:
+    level:
+        root: INFO
+        xxx.yyy.zzz: DEBUG
+    pattern:
+        console: "${CONSOLE_LOG_PATTERN:\
+  %clr(${LOG_LEVEL_PATTERN:%5p}) \
+  %clr([%15.15t]){faint} \
+  %clr(%-40.40logger{39}){cyan} \
+  %clr(:){faint} %m%n\
+  ${LOG_EXCEPTION_CONVERSION_WORD:%wEx}}"

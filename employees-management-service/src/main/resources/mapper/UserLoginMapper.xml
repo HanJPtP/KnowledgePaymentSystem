@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.outlet.dao.mysql.mapper.UserLoginMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.outlet.dao.mysql.po.UserLogin">
+            <id property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="account" column="account" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="VARCHAR"/>
+            <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+            <result property="registerTime" column="register_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,account,password,
+        status,modified_time,register_time
+    </sql>
+
+    <select id="getUserLoginToUserDtoById" resultType="com.woniu.outlet.dao.dto.UserLoginToUserDto">
+        select uid, `status`, register_time registertime from user_login WHERE uid = #{id}
+    </select>
+
+    <select id="listAllEmployeesToViewDtoItem" resultType="com.woniu.outlet.dao.dto.UserLoginItemToViewDto">
+        select ul.uid, ul.account, ul.`status`, ul.register_time registertime, r.role, e.username, e.author
+             from user_login ul
+             LEFT JOIN employeeinfo e on ul.uid = e.uid
+             LEFT JOIN user_role ur on ul.uid = ur.uid
+             left JOIN role r on ur.roleid = r.id
+    </select>
+
+    <select id="getUserLoginShowUpdateById" resultType="com.woniu.inlet.web.vo.UserLoginShowUpdateVo">
+        select ul.uid uid, e.id eid, ul.password, ul.account, ul.password, ul.`status`, e.username, e.birthday, e.email, e.img, e.`profile`, e.qq, e.vx, e.sex, e.tel
+             from user_login ul
+             LEFT JOIN employeeinfo e on ul.uid = e.uid
+             LEFT JOIN user_role ur on ur.uid = ul.uid
+             LEFT JOIN role r on ur.roleid = r.id
+             WHERE ul.uid = #{id}
+    </select>
+</mapper>

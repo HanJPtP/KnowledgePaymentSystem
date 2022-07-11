@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.FullDiscountFullDiscountMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.outlet.dao.mysql.pojo.FullDiscountFullDiscount">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="eventname" column="eventName" jdbcType="VARCHAR"/>
+            <result property="typeofactivity" column="typeOfActivity" jdbcType="INTEGER"/>
+            <result property="activities" column="activities" jdbcType="VARCHAR"/>
+            <result property="scopeofapplication" column="scopeOfApplication" jdbcType="INTEGER"/>
+            <result property="activestatus" column="activeStatus" jdbcType="INTEGER"/>
+            <result property="eventstarttime" column="eventStartTime" jdbcType="TIMESTAMP"/>
+            <result property="eventendtime" column="eventEndTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,eventName,typeOfActivity,
+        activities,scopeOfApplication,activeStatus,
+        eventStartTime,eventEndTime
+    </sql>
+</mapper>

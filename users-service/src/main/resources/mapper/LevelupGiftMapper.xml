@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.LevelupGiftMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.LevelupGift">
+            <id property="giftId" column="gift_id" jdbcType="BIGINT"/>
+            <result property="couponid" column="couponid" jdbcType="BIGINT"/>
+            <result property="points" column="points" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        gift_id,couponid,points
+    </sql>
+</mapper>

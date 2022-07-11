@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.MemberPlusTypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.MemberPlusType">
+            <id property="plusTypeid" column="plus_typeid" jdbcType="BIGINT"/>
+            <result property="plusname" column="plusname" jdbcType="VARCHAR"/>
+            <result property="bgcolor" column="bgcolor" jdbcType="VARCHAR"/>
+            <result property="efficientTime" column="efficient_time" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="DOUBLE"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        plus_typeid,plusname,bgcolor,
+        efficient_time,price,description,
+        status,modified_time
+    </sql>
+</mapper>

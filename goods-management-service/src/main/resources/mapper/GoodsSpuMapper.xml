@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.outlet.mysql.mapper.GoodsSpuMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.outlet.dao.mysql.po.GoodsSpu">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="subTitle" column="sub_title" jdbcType="VARCHAR"/>
+            <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+            <result property="spgId" column="spg_id" jdbcType="INTEGER"/>
+            <result property="saleable" column="saleable" jdbcType="VARCHAR"/>
+            <result property="valid" column="valid" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="lastUpdateTime" column="last_update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,sub_title,
+        category_id,spg_id,saleable,
+        valid,create_time,last_update_time,
+        is_deleted
+    </sql>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniu.outnet.dao.mysql.TimeToSendEmailMapper">
+
+
+    <select id="listTimeToSendEmailByQueryWapper" resultType="com.woniu.outnet.dao.pojo.TimeToSendEmail">
+        select GROUP_CONCAT(a.id order by a.id asc SEPARATOR ',') as id,
+        GROUP_CONCAT(a.crlid order by a.crlid asc SEPARATOR ',') as crlid,
+        a.userid as userid,
+        GROUP_CONCAT(a.userid order by a.userid asc SEPARATOR ',')as userplayid,
+        GROUP_CONCAT(a.estarttime order by a.estarttime asc SEPARATOR ',') as estarttime,
+        a.sendornot,
+        GROUP_CONCAT(a.`name` order by a.`name` asc SEPARATOR ',') as `name`
+        from (select ca.id,ca.crlid,ca.userid as userid,crl.userid as userplayid,ca.estarttime,ca.sendornot,crl.`name` from class_appointment as ca left join class_record_live as crl on ca.crlid=crl.id where sendornot=#{sendOrNot} and ca.estarttime &lt;= #{rightTime} and ca.estarttime &gt;= #{leftTime} and crl.`status`=1 and ca.userstatus="y") as a group by userid
+    </select>
+
+</mapper>
+

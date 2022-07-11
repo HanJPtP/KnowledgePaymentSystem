@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.UserPayLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.UserPayLog">
+            <id property="payId" column="pay_id" jdbcType="BIGINT"/>
+            <result property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="source" column="source" jdbcType="VARCHAR"/>
+            <result property="sourceSn" column="source_sn" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="amount" column="amount" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        pay_id,uid,source,
+        source_sn,create_time,amount
+    </sql>
+
+</mapper>

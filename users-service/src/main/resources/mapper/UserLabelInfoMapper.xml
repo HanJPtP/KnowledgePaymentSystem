@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.users.outlet.dao.mysql.mapper.UserLabelInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.users.outlet.dao.mysql.po.UserLabelInfo">
+            <result property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="labelId" column="label_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,label_id
+    </sql>
+
+    <select id="listLabelName" resultType="java.lang.String">
+        select label_name from user_label_info uli left join user_label ul on
+            uli.label_id=ul.label_id where uli.uid=#{uid} and ul.status=1
+    </select>
+</mapper>
